@@ -14,6 +14,7 @@ const Home = () => {
     const [previewData, setPreviewData] = useState(null);
     const [selectedSource, setSelectedSource] = useState('Bufftoon');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태 추가
 
     useEffect(() => {
         const fetchData = async (date) => {
@@ -30,6 +31,7 @@ const Home = () => {
                     console.error('Bufftoon response text:', bufftoonText);
                     return;
                 }
+
                 if (!naverWebtoonResponse.ok) {
                     console.error(`Error fetching naver webtoon data for ${date}:`, naverWebtoonResponse.statusText);
                     const naverWebtoonText = await naverWebtoonResponse.text();
@@ -72,7 +74,6 @@ const Home = () => {
                 }
 
                 setDates(dateList);
-
                 await Promise.all(dateList.map(fetchData));
             } catch (error) {
                 console.error('Error fetching data for all dates:', error);
@@ -97,6 +98,7 @@ const Home = () => {
                     console.error('Bufftoon response text:', bufftoonText);
                     return;
                 }
+
                 if (!naverWebtoonResponse.ok) {
                     console.error(`Error fetching naver webtoon data for ${date}:`, naverWebtoonResponse.statusText);
                     const naverWebtoonText = await naverWebtoonResponse.text();
@@ -137,6 +139,10 @@ const Home = () => {
         setSelectedSource(event.target.value);
     };
 
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value); // 검색어 상태 업데이트
+    };
+
     const handleImageClick = (webtoon) => {
         setPreviewData(webtoon);
         setIsModalOpen(true);
@@ -149,11 +155,16 @@ const Home = () => {
 
     const renderWebtoonList = () => {
         const data = allData[selectedDate] ? allData[selectedDate][selectedSource] : [];
+        
+        // 검색어를 바탕으로 웹툰 필터링
+        const filteredData = data.filter(webtoon => 
+            webtoon.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
         return (
             <ul>
-                {data.length > 0 ? (
-                    data.map((webtoon, index) => (
+                {filteredData.length > 0 ? (
+                    filteredData.map((webtoon, index) => (
                         <li key={index} className="webtoon-item">
                             <img
                                 className="thumb"
@@ -165,7 +176,7 @@ const Home = () => {
                         </li>
                     ))
                 ) : (
-                    <p>No data available for the selected date.</p>
+                    <p>No data available for the selected date or search query.</p>
                 )}
             </ul>
         );
@@ -176,15 +187,15 @@ const Home = () => {
 
         if (selectedSource === 'Bufftoon') {
             return (
-                <div>
+                <div className='modal-container'>
                     <img src={previewData.imageURL || previewData.image_url} alt="Preview" />
                     <div className="modal-title">
                         <h2>{previewData.title}</h2>
                         <div className="modal-header">
+                            <span className='modal-cate'>카테고리: {previewData.tags}</span>
                             <span className='modal-artist'>작가: {previewData.authors}</span>
                         </div>
                         <span className='modal-text'>{previewData.description}</span>
-
                         <button className='webtoon-link'>
                             <Link to={previewData.url}>웹툰 보러가기</Link>
                         </button>
@@ -193,7 +204,7 @@ const Home = () => {
             );
         } else if (selectedSource === 'Naver Webtoon') {
             return (
-                <div>
+                <div className='modal-container'>
                     <img src={previewData.imageURL || previewData.image_url} alt="Preview" />
                     <div className="modal-title">
                         <h2>{previewData.title}</h2>
@@ -203,8 +214,8 @@ const Home = () => {
                         </div>
                         <span className='modal-text'>{previewData.description}</span>
                         <div>
-                            <span className='modal-weekday'>요일: {previewData.weekday}</span>
-                            <span className='modal-age'>연령: {previewData.age}</span>
+                            {/* <span className='modal-weekday'>요일: {previewData.weekday}</span>
+                            <span className='modal-age'>연령: {previewData.age}</span> */}
                         </div>
                         <button className='webtoon-link'>
                             <Link to={previewData.url}>웹툰 보러가기</Link>
@@ -213,7 +224,6 @@ const Home = () => {
                 </div>
             );
         }
-
         return null;
     };
 
@@ -227,6 +237,17 @@ const Home = () => {
             <main id="main">
                 <div className="content">
                     <section id="list">
+                        <div className='searchbox'>
+                            <label>
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={handleSearchChange}
+                                    placeholder="Search by title"
+                                    className="search-input"
+                                />
+                            </label>
+                        </div>
                         <div className='option_wrap'>
                             <label>
                                 Date
@@ -245,6 +266,7 @@ const Home = () => {
                                 </select>
                             </label>
                         </div>
+                        
                         <div>
                             {renderWebtoonList()}
                         </div>
