@@ -17,6 +17,12 @@ const Home = () => {
     const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태 추가
 
     useEffect(() => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        setSelectedDate(yesterday.toISOString().split('T')[0]);
+    }, []);
+
+    useEffect(() => {
         const fetchData = async (date) => {
             try {
                 const bufftoonUrl = `https://raw.githubusercontent.com/Kingsong97/webtoon_rank/main/bufftoon/bufftoon_${date}.json`;
@@ -243,7 +249,7 @@ const Home = () => {
                                     type="text"
                                     value={searchQuery}
                                     onChange={handleSearchChange}
-                                    placeholder="Search by title"
+                                    placeholder="웹툰을 검색해보세요!"
                                     className="search-input"
                                 />
                             </label>
