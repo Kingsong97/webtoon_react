@@ -23,14 +23,13 @@
 
 #main .content #list .option_wrap {
     display: block;
-    width: 300px;
+    width: 530px;
     display: flex;
     gap: 1rem;
     border: 1px solid #727387;
-    width: 350px;
-    margin: 0 auto;
     border-radius: 50px;
     position: relative;
+    margin-left: 35px;
     margin-bottom: 25px;
 }
 
@@ -83,7 +82,6 @@
     width: 200px;
     color: #6B6D84;
 }
-
 #text {
     font-weight: 900;
     font-family: var(--fontN);
@@ -131,6 +129,22 @@
 // #sorter label input:checked+span {
 //     color: #fff;
 // }
+
+section#list {
+    position: relative;
+}
+
+section#list .searchbox .search-input {
+    width: 500px;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    margin-right: 0;
+    border-radius: 5px;
+    padding: 20px;
+}
+
 
 section#list ul {
     padding: 0;
@@ -208,11 +222,4 @@ section#details a {
     padding: 2rem 1rem;
     max-width: 400px;
     text-align: center;
-}
-
-.searchbox {
-    display: flex;
-    justify-content: right;
-    gap: 1rem;
-    margin: 1rem auto;
 }

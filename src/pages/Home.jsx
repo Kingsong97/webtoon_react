@@ -8,40 +8,35 @@ import { Link } from 'react-router-dom';
 Modal.setAppElement('#root'); // Modal 컴포넌트를 사용하기 위한 설정
 
 const Home = () => {
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+    const [selectedDate, setSelectedDate] = useState(new Date(Date.now() - 86400000).toISOString().split('T')[0]);
     const [allData, setAllData] = useState({});
     const [dates, setDates] = useState([]);
     const [previewData, setPreviewData] = useState(null);
     const [selectedSource, setSelectedSource] = useState('Bufftoon');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태 추가
-
-    useEffect(() => {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        setSelectedDate(yesterday.toISOString().split('T')[0]);
-    }, []);
+    const [selectedTag, setSelectedTag] = useState(''); // 태그 상태 추가
 
     useEffect(() => {
         const fetchData = async (date) => {
             try {
-                const bufftoonUrl = `https://raw.githubusercontent.com/Kingsong97/webtoon_rank/main/bufftoon/bufftoon_${date}.json`;
-                const naverWebtoonUrl = `https://raw.githubusercontent.com/Kingsong97/webtoon_rank/main/naverwebtoon/naverwebtoon_${date}.json`;
-
-                const bufftoonResponse = await fetch(bufftoonUrl);
+                const naverWebtoonUrl = `https://raw.githubusercontent.com/skadbstj12/webtoon-rank/main/naverwebtoon/naverwebtoon_${date}.json`;
+                const bufftoonUrl = `https://raw.githubusercontent.com/skadbstj12/webtoon-rank/main/bufftoon/bufftoon_${date}.json`;
+                
                 const naverWebtoonResponse = await fetch(naverWebtoonUrl);
-
-                if (!bufftoonResponse.ok) {
-                    console.error(`Error fetching bufftoon data for ${date}:`, bufftoonResponse.statusText);
-                    const bufftoonText = await bufftoonResponse.text();
-                    console.error('Bufftoon response text:', bufftoonText);
-                    return;
-                }
+                const bufftoonResponse = await fetch(bufftoonUrl);
 
                 if (!naverWebtoonResponse.ok) {
                     console.error(`Error fetching naver webtoon data for ${date}:`, naverWebtoonResponse.statusText);
                     const naverWebtoonText = await naverWebtoonResponse.text();
                     console.error('Naver Webtoon response text:', naverWebtoonText);
+                    return;
+                }
+
+                if (!bufftoonResponse.ok) {
+                    console.error(`Error fetching bufftoon data for ${date}:`, bufftoonResponse.statusText);
+                    const bufftoonText = await bufftoonResponse.text();
+                    console.error('Bufftoon response text:', bufftoonText);
                     return;
                 }
 
@@ -92,23 +87,23 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async (date) => {
             try {
-                const bufftoonUrl = `https://raw.githubusercontent.com/Kingsong97/webtoon_rank/main/bufftoon/bufftoon_${date}.json`;
-                const naverWebtoonUrl = `https://raw.githubusercontent.com/Kingsong97/webtoon_rank/main/naverwebtoon/naverwebtoon_${date}.json`;
+                const bufftoonUrl = `https://raw.githubusercontent.com/skadbstj12/webtoon-rank/main/bufftoon/bufftoon_${date}.json`;
+                const naverWebtoonUrl = `https://raw.githubusercontent.com/skadbstj12/webtoon-rank/main/naverwebtoon/naverwebtoon_${date}.json`;
 
                 const bufftoonResponse = await fetch(bufftoonUrl);
                 const naverWebtoonResponse = await fetch(naverWebtoonUrl);
-
-                if (!bufftoonResponse.ok) {
-                    console.error(`Error fetching bufftoon data for ${date}:`, bufftoonResponse.statusText);
-                    const bufftoonText = await bufftoonResponse.text();
-                    console.error('Bufftoon response text:', bufftoonText);
-                    return;
-                }
 
                 if (!naverWebtoonResponse.ok) {
                     console.error(`Error fetching naver webtoon data for ${date}:`, naverWebtoonResponse.statusText);
                     const naverWebtoonText = await naverWebtoonResponse.text();
                     console.error('Naver Webtoon response text:', naverWebtoonText);
+                    return;
+                }
+
+                if (!bufftoonResponse.ok) {
+                    console.error(`Error fetching bufftoon data for ${date}:`, bufftoonResponse.statusText);
+                    const bufftoonText = await bufftoonResponse.text();
+                    console.error('Bufftoon response text:', bufftoonText);
                     return;
                 }
 
@@ -118,8 +113,8 @@ const Home = () => {
                 setAllData((prevData) => ({
                     ...prevData,
                     [date]: {
-                        Bufftoon: bufftoonData,
                         'Naver Webtoon': naverWebtoonData,
+                        Bufftoon: bufftoonData,
                     },
                 }));
             } catch (error) {
@@ -127,8 +122,8 @@ const Home = () => {
                 setAllData((prevData) => ({
                     ...prevData,
                     [date]: {
-                        Bufftoon: [],
                         'Naver Webtoon': [],
+                        Bufftoon: [],
                     },
                 }));
             }
@@ -146,7 +141,11 @@ const Home = () => {
     };
 
     const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value); // 검색어 상태 업데이트
+        setSearchQuery(event.target.value);
+    };
+
+    const handleTagChange = (event) => {
+        setSelectedTag(event.target.value);
     };
 
     const handleImageClick = (webtoon) => {
@@ -162,9 +161,9 @@ const Home = () => {
     const renderWebtoonList = () => {
         const data = allData[selectedDate] ? allData[selectedDate][selectedSource] : [];
         
-        // 검색어를 바탕으로 웹툰 필터링
         const filteredData = data.filter(webtoon => 
-            webtoon.title.toLowerCase().includes(searchQuery.toLowerCase())
+            webtoon.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+            (selectedTag === '' || (webtoon.tags && webtoon.tags.includes(selectedTag)))
         );
 
         return (
@@ -249,7 +248,7 @@ const Home = () => {
                                     type="text"
                                     value={searchQuery}
                                     onChange={handleSearchChange}
-                                    placeholder="웹툰을 검색해보세요!"
+                                    placeholder="Search by title"
                                     className="search-input"
                                 />
                             </label>
@@ -267,8 +266,29 @@ const Home = () => {
                             <label>
                                 Platform
                                 <select value={selectedSource} onChange={handleSourceChange}>
-                                    <option value="Bufftoon">Bufftoon</option>
                                     <option value="Naver Webtoon">Naver Webtoon</option>
+                                    <option value="Bufftoon">Bufftoon</option>
+                                </select>
+                            </label>
+                            <label className='tag_label'>
+                                Tag
+                                <select value={selectedTag} onChange={handleTagChange}>
+                                    <option value="">선택 없음</option>
+                                    <option value="액션">액션</option>
+                                    <option value="학원">학원</option>
+                                    <option value="로맨스">로맨스</option>
+                                    <option value="판타지">판타지</option>
+                                    <option value="개그">개그</option>
+                                    <option value="스릴러">스릴러</option>
+                                    <option value="사극">사극</option>
+                                    <option value="드라마">드라마</option>
+                                    <option value="감성">감성</option>
+                                    <option value="스포츠">스포츠</option>
+                                    <option value="먼치킨">먼치킨</option>
+                                    <option value="아이돌">아이돌</option>
+                                    <option value="회귀">회귀</option>
+                                    <option value="성장물">성장물</option>
+                                    <option value="범죄">범죄</option>
                                 </select>
                             </label>
                         </div>

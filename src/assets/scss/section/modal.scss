@@ -11,6 +11,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .overlay {
     position: fixed;
     top: 0;
@@ -19,6 +20,7 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.75);
 }
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -30,26 +32,34 @@
     align-items: center;
     justify-content: center;
 }
+
 .modal-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 4px;
     position: relative;
 }
+
+
+
+
 .ReactModal__Content {
     width: 700px;
     position: relative;
     display: flex;
+
     button {
         position: absolute;
         right: 20px;
     }
+
     img {
         border: 2px solid #707070;
         margin-left: 30px;
         width: 40%;
         border-radius: 20px;
     }
+
     .modal-title {
         width: 300px;
         text-align: center;
@@ -57,16 +67,20 @@
         margin: 0 auto;
         font-family: var(--fontN);
         position: relative;
+        
         h2 {
             margin-bottom: 20px;
         }
+
         .modal-header {
             margin-bottom: 10px;
             color: #000000;
             border-bottom: 2px solid #000;
+
             .modal-artist {
                 padding: 0 0 2px 0;
             }
+
             .modal-cate {
                 margin-bottom: 10px;
                 padding: 0 0 2px 0;
@@ -76,8 +90,11 @@
                 -webkit-box-orient: vertical;
                 line-height: 1.5; /* 줄 간격 설정 (필요에 따라 조정 가능) */
                 max-height: calc(1.5em * 1); /* 줄 간격에 맞춰 최대 높이 설정 */
+                
+                
             }
         }
+
         .webtoon-link {
             border-radius: 50px;
             bottom: 20px;
@@ -85,13 +102,15 @@
             width: 200px;
             height: 50px;
             border: 1px solid #000;
-            background-color: #FFFFFF;
+            background-color: #ffffff;
             left: 60px;
             bottom: 0;
         }
+
         button:hover {
-            background-color: #CACACA;
+            background-color: #cacaca;
         }
+
         .modal-tag {
             display: flex;
             text-align: center;
@@ -102,6 +121,7 @@
             padding: 0 0 2px 0;
             border-bottom: 2px solid #000;
         }
+
         .modal-text {
             display: flex;
             text-align: center;
@@ -109,15 +129,19 @@
             margin-right: 20px;
             text-align: center;
             color: #000;
+
             overflow: hidden;
             display: -webkit-box;
-            -webkit-line-clamp: 7; /* 표시할 줄 수 */
+            -webkit-line-clamp: 5; /* 표시할 줄 수 */
             -webkit-box-orient: vertical;
             line-height: 1.5; /* 줄 간격 설정 (필요에 따라 조정 가능) */
-            max-height: calc(1.5em * 7); /* 줄 간격에 맞춰 최대 높이 설정 */
+            max-height: calc(1.5em * 5); /* 줄 간격에 맞춰 최대 높이 설정 */
         }
     }
+
+
 }
+
 .modal-container{
     display: flex;
 }

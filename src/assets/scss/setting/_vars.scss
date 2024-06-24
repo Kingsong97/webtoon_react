@@ -1,6 +1,7 @@
 :root {
-    --fontN: "nanumSquareNeo";
+    --fontM: "nanumSquareNeo";
     --fontX: "nexonLv1";
+    --fontN: "oneMobileTitle";
 
     --black: #000;
     --black100: #111;
@@ -17,7 +18,7 @@
     --white500: #fff;
 
     // 폰트 셋팅
-    font-family: var(--fontN), var(--fontX);
+    font-family: var(--fontN), var(--fontX), var(--fontM);
     font-size: 16px;
     line-height: 1.5;
     font-weight: 400;

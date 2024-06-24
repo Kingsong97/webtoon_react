@@ -3,9 +3,9 @@ import { snsLink } from "../../data/footer"
 const Footer = () => {
     return (
         <footer id='footer' role='contentinfo'>
-            {/* <a href="mailto:nys060121@naver.com" rel="noopener noreferrer">
+            <a href="mailto:nys060121@naver.com" rel="noopener noreferrer">
                 nys060121@naver.com
-            </a> */}
+            </a>
             <div className='footer__sns'>
                 <ul>
                     {snsLink.map((sns, key) => (
