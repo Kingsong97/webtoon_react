@@ -87,8 +87,8 @@ const Home = () => {
     useEffect(() => {
         const fetchData = async (date) => {
             try {
-                const bufftoonUrl = `https://raw.githubusercontent.com/skadbstj12/webtoon-rank/main/bufftoon/bufftoon_${date}.json`;
-                const naverWebtoonUrl = `https://raw.githubusercontent.com/skadbstj12/webtoon-rank/main/naverwebtoon/naverwebtoon_${date}.json`;
+                const bufftoonUrl = `https://raw.githubusercontent.com/Kingsong97/webtoon_rank/main/bufftoon/bufftoon_${date}.json`;
+                const naverWebtoonUrl = `https://raw.githubusercontent.com/Kingsong97/webtoon_rank/main/naverwebtoon/naverwebtoon_${date}.json`;
 
                 const bufftoonResponse = await fetch(bufftoonUrl);
                 const naverWebtoonResponse = await fetch(naverWebtoonUrl);
