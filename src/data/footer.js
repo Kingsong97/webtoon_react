@@ -1,7 +1,6 @@
 import React from 'react'
 import { FaInstagram } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
-import { AiFillTikTok } from "react-icons/ai";
 import { FaYoutube } from "react-icons/fa";
 
 
@@ -11,11 +10,7 @@ export const snsLink = [
         url: "https://www.instagram.com/laplsk_/"
     }, {
         icon: <FaGithub />,
-        url: "https://github.com/skadbstj12"
-    },
-    {
-        icon: <AiFillTikTok />,
-        url: "https://www.tiktok.com/@namyoonseo25"
+        url: "https://github.com/Kingsong97"
     },
     {
         icon: <FaYoutube />,
