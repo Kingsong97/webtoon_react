@@ -184,7 +184,7 @@ const Home = () => {
                         </li>
                     ))
                 ) : (
-                    <p>No data available for the selected date or search query.</p>
+                    <p>찾으시는 웹툰이 없습니다, 다시 검색해보세요.</p>
                 )}
             </ul>
         );
