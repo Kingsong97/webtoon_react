@@ -17,6 +17,9 @@ const Home = () => {
     const [searchQuery, setSearchQuery] = useState(''); // 검색어 상태 추가
     const [selectedTag, setSelectedTag] = useState(''); // 태그 상태 추가
 
+    const startDate = new Date('2024-06-20');
+    const today = new Date();
+
     useEffect(() => {
         const fetchData = async (date) => {
             try {
@@ -261,6 +264,10 @@ const Home = () => {
                                     onChange={handleDateChange}
                                     dateFormat="yyyy-MM-dd"
                                     className="date-picker"
+                                    filterDate={date => {
+                                        const selectedDate = new Date(date);
+                                        return selectedDate >= startDate && selectedDate <= today;
+                                    }}
                                 />
                             </label>
                             <label>

@@ -3,9 +3,7 @@ import { snsLink } from "../../data/footer"
 const Footer = () => {
     return (
         <footer id='footer' role='contentinfo'>
-            <a href="mailto:nys060121@naver.com" rel="noopener noreferrer">
-                nys060121@naver.com
-            </a>
+            <span>본 사이트는 학습용으로 제작되었습니다. 어떠한 상업적 용도로도 사용을 불허합니다. </span>
             <div className='footer__sns'>
                 <ul>
                     {snsLink.map((sns, key) => (
